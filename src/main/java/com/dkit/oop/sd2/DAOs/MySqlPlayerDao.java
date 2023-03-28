@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
@@ -73,7 +75,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
     }
 
     @Override
-    public Player findPlayerById(int id){
+    public Player findPlayerById(int id) throws DaoException {
         //Function to return a player with a given id.
 
         Connection connection = null;
@@ -81,53 +83,59 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         ResultSet resultSet = null;
         Player p = null;
 
-        try
-        {
-            //Get connection object
-            connection = this.getConnection();
-
-            String query = "SELECT * FROM PLAYERS WHERE PLAYER_ID = ?";
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
-
-            //Using a prepared statement
-            resultSet = ps.executeQuery();
-            if (resultSet.next())
-            {
-                int player_id = resultSet.getInt("PLAYER_ID");
-                String f_name = resultSet.getString("FIRST_NAME");
-                String l_name = resultSet.getString("LAST_NAME");
-                String country = resultSet.getString("COUNTRY");
-                int points = resultSet.getInt("POINTS");
-                String birth_date = resultSet.getString("BIRTH_DATE");
-                p = new Player(player_id, f_name, l_name, country, points, birth_date);
-            }
-        } catch (SQLException e)
-        {
-            System.out.println("findPlayerByIdResultSet() " + e.getMessage());
-        } finally
-        {
+        //If the id is in the database, return the player with that id.
+        if(getAllPlayerIds().contains(id)){
             try
             {
-                //Close the connection
-                if (resultSet != null)
+                //Get connection object
+                connection = this.getConnection();
+
+                String query = "SELECT * FROM PLAYERS WHERE PLAYER_ID = ?";
+                ps = connection.prepareStatement(query);
+                ps.setInt(1, id);
+
+                //Using a prepared statement
+                resultSet = ps.executeQuery();
+                if (resultSet.next())
                 {
-                    resultSet.close();
-                }
-                if (ps != null)
-                {
-                    ps.close();
-                }
-                if (connection != null)
-                {
-                    freeConnection(connection);
+                    int player_id = resultSet.getInt("PLAYER_ID");
+                    String f_name = resultSet.getString("FIRST_NAME");
+                    String l_name = resultSet.getString("LAST_NAME");
+                    String country = resultSet.getString("COUNTRY");
+                    int points = resultSet.getInt("POINTS");
+                    String birth_date = resultSet.getString("BIRTH_DATE");
+                    p = new Player(player_id, f_name, l_name, country, points, birth_date);
                 }
             } catch (SQLException e)
             {
-                System.out.println("findPlayerById() " + e.getMessage());
+                System.out.println("findPlayerByIdResultSet() " + e.getMessage());
+            } finally
+            {
+                try
+                {
+                    //Close the connection
+                    if (resultSet != null)
+                    {
+                        resultSet.close();
+                    }
+                    if (ps != null)
+                    {
+                        ps.close();
+                    }
+                    if (connection != null)
+                    {
+                        freeConnection(connection);
+                    }
+                } catch (SQLException e)
+                {
+                    System.out.println("findPlayerById() " + e.getMessage());
+                }
             }
+            return p;
         }
-        return p;
+        //Else return null
+        return null;
+
     }
 
     @Override
@@ -233,6 +241,58 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
             }
         }
         return newP;
+    }
+
+    @Override
+    public Set<Integer> getAllPlayerIds() throws DaoException {
+        //Function to return a list of all player ids in the database.
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        Set<Integer> playerIds = new HashSet<>();
+
+        try
+        {
+            //Get connection object
+            connection = this.getConnection();
+
+            String query = "SELECT PLAYER_ID FROM PLAYERS";
+            ps = connection.prepareStatement(query);
+
+            //Using a prepared statement
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int player_id = resultSet.getInt("PLAYER_ID");
+                playerIds.add(player_id);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("getAllPlayerIdsResultSet() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                //Close the connection
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("getAllPlayerIds() " + e.getMessage());
+            }
+        }
+        return playerIds;
     }
 }
 

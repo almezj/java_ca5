@@ -1,16 +1,21 @@
 package com.dkit.oop.sd2.Utilities;
 
+import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 import com.dkit.oop.sd2.Utilities.Input;
 import com.dkit.oop.sd2.Utilities.RacquetUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class PlayerUtils {
 
     static Scanner keyboard = new Scanner(System.in);
+    static MySqlPlayerDao IPlayerDao = new MySqlPlayerDao();
+
 
     public static void showPlayers(List<Player> playerList){
         //Function to display all players in the list
@@ -76,23 +81,6 @@ public class PlayerUtils {
         return null;
     }
 
-    public static Player findPlayerById(List<Player> playerList){
-        //Function to collect the player ID and return the player object or null if the player is not found
-
-        System.out.println("Enter the player ID of the player you want to find: ");
-        int playerID = Input.validateInput(keyboard.nextLine(), 1000000);
-
-        if( playerList.isEmpty() )
-            System.out.println("There are no players");
-        else {
-            for (Player player : playerList){
-                if (player.getId() == playerID)
-                    System.out.println("Player: " + player.toString());
-                    return player;
-            }
-        }
-        return null;
-    }
 
     public static int deletePlayerPrompt() throws DaoException {
         //Function to collect the player ID of the player to be deleted from the user and return the player ID
@@ -135,5 +123,21 @@ public class PlayerUtils {
 
         Player player = new Player(f_name, l_name, country, points, birthDate);
         return player;
+    }
+
+    public static void findPlayerById(Set<Integer> playerIdCache) throws DaoException {
+        //Function to collect the player ID of the player to be found from the user and return the player ID
+
+        System.out.println("Enter the player ID of the player you want to find: ");
+        int playerID = Input.validateInput(keyboard.nextLine(), Integer.MAX_VALUE);
+
+        if(playerIdCache.contains(playerID)){
+            Player p = IPlayerDao.findPlayerById(playerID);
+            System.out.println(p.toString());
+        }
+        else{
+            System.out.println("Player " + playerID + " has not been found");
+        }
+
     }
 }
