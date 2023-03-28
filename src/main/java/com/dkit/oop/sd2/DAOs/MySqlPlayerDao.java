@@ -1,20 +1,5 @@
 package com.dkit.oop.sd2.DAOs;
 
-/** OOP Feb 2022
- *
- * Data Access Object (DAO) for User table with MySQL-specific code
- * This 'concrete' class implements the 'UserDaoInterface'.
- *
- * The DAO will contain the SQL query code to interact with the database,
- * so, the code here is specific to a particular database (e.g. MySQL or Oracle etc...)
- * No SQL queries will be used in the Business logic layer of code, thus, it
- * will be independent of the database specifics.
- *
- * The Business Logic layer is only permitted to access the database by calling
- * methods provided in the Data Access Layer - i.e. by callimng the DAO methods.
- *
- */
-
 
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
@@ -30,8 +15,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 {
 
     @Override
-    public List<Player> findAllPlayers() throws DaoException
-    {
+    public List<Player> findAllPlayers() throws DaoException {
+        //Function to return a list of all players in the database.
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -39,13 +25,13 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "SELECT * FROM PLAYERS";
             ps = connection.prepareStatement(query);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
@@ -65,6 +51,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         {
             try
             {
+                //Close the connection
                 if (resultSet != null)
                 {
                     resultSet.close();
@@ -87,6 +74,8 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
     @Override
     public Player findPlayerById(int id){
+        //Function to return a player with a given id.
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -94,14 +83,14 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "SELECT * FROM PLAYERS WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             resultSet = ps.executeQuery();
             if (resultSet.next())
             {
@@ -120,6 +109,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         {
             try
             {
+                //Close the connection
                 if (resultSet != null)
                 {
                     resultSet.close();
@@ -142,6 +132,8 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
     @Override
     public boolean deletePlayer(int id){
+        //Function to delete a player with a given id.
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -149,14 +141,14 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "DELETE FROM PLAYERS WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             int affectedRows = ps.executeUpdate();
             if (affectedRows == 1)
             {
@@ -169,6 +161,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
         {
             try
             {
+                //Close the connection
                 if (resultSet != null)
                 {
                     resultSet.close();

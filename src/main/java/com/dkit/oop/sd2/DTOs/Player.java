@@ -8,6 +8,8 @@ public class Player implements Comparable<Player>{
     private int points;
     private String dateOfBirth;
 
+
+    //Constructors
     public Player(String firstName, String lastName, String country, int points, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,6 +35,7 @@ public class Player implements Comparable<Player>{
         this.dateOfBirth = "";
     }
 
+    //Getters and setters
     public int getId() {
         return id;
     }
@@ -88,7 +91,7 @@ public class Player implements Comparable<Player>{
                 dateOfBirth;
     }
 
-    //override equals and compareTo methods
+    //Override equals and compareTo methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

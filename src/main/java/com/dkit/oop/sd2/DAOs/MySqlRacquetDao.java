@@ -1,6 +1,5 @@
 package com.dkit.oop.sd2.DAOs;
 
-import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.DTOs.Racquet;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 import java.sql.Connection;
@@ -14,6 +13,8 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
     @Override
     public List<Racquet> findAllRacquets() throws DaoException {
+        //Function to return a list of all racquets in the database.
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -21,13 +22,13 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "SELECT * FROM RACQUET_SPECIFICATIONS";
             ps = connection.prepareStatement(query);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement.
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
@@ -70,7 +71,7 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
     @Override
     public boolean doesPlayerIdHaveRacquets(int playerId) throws DaoException {
-        // function to check if a player has a racquet
+        //Function to check if a player has a racquet
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -79,14 +80,14 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "SELECT * FROM RACQUET_SPECIFICATIONS WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, playerId);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             resultSet = ps.executeQuery();
             if (resultSet.next())
             {
@@ -122,7 +123,7 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
     @Override
     public boolean deleteRacquetById(int specId) throws DaoException {
-        // function to delete a racquet
+        //Function to delete a racquet by spec id
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -131,14 +132,14 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "DELETE FROM RACQUET_SPECIFICATIONS WHERE SPEC_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, specId);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             resultSet = ps.executeQuery();
             if (resultSet.next())
             {
@@ -174,7 +175,7 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
     @Override
     public boolean deletePlayerRacquets(int playerId) throws DaoException {
-        // function to delete a racquet
+        //Function to delete a racquet of a player by player id
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -183,14 +184,14 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
         try
         {
-            //Get connection object using the methods in the super class (MySqlDao.java)...
+            //Get connection object
             connection = this.getConnection();
 
             String query = "DELETE FROM RACQUET_SPECIFICATIONS WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, playerId);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a prepared statement
             resultSet = ps.executeQuery();
             if (resultSet.next())
             {

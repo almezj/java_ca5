@@ -19,7 +19,7 @@ public class Racquet {
         this.string_pattern = string_pattern;
     }
 
-    //getters
+    //Getters
     public int getSpec_id() {
         return spec_id;
     }
@@ -48,4 +48,6 @@ public class Racquet {
         return string_pattern;
     }
 
+
+    //TODO: CompareTo, equals, toString methods
 }

@@ -8,8 +8,9 @@ import java.util.Scanner;
 public class Menu {
     private static Scanner keyboard = new Scanner(System.in);
     static Input userInput = new Input();
-    //This class will contain functions to display menus and get user input
     public static int mainMenu() {
+        //Main menu for the program
+
         final int MAX_OPTION = 3;
         System.out.println("Please select an option:");
         System.out.println("1. Player Features");
@@ -26,6 +27,8 @@ public class Menu {
     }
 
     public static int playerMainMenu() {
+        //Main menu for player features
+
         final int MAX_OPTION = 9;
         System.out.println("Please select an option:");
         System.out.println("1. Display all players");
@@ -48,6 +51,8 @@ public class Menu {
     }
 
     public static int racquetMainMenu() {
+        //Main menu for racquet features
+
         final int MAX_OPTION = 6;
         System.out.println("Please select an option:");
         System.out.println("1. Display all racquets");
@@ -68,6 +73,9 @@ public class Menu {
     }
 
     public static int displayAllPlayersAsMenu(List<Player> players) {
+        //Function to display all players as a menu using enumeration
+        //Returns the id of the player selected
+
         System.out.println("Display all players");
         int num_of_players = 0;
 

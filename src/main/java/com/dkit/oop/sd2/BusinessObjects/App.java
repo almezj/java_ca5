@@ -23,11 +23,10 @@ import com.dkit.oop.sd2.DAOs.PlayerDaoInterface;
 import com.dkit.oop.sd2.DAOs.RacquetDaoInterface;
 import com.dkit.oop.sd2.DTOs.Player;
 
-import com.dkit.oop.sd2.DTOs.Racquet;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 import java.util.*;
 
-import com.dkit.oop.sd2.PlayerUtils;
+import com.dkit.oop.sd2.Utilities.PlayerUtils;
 import com.dkit.oop.sd2.Utilities.*;
 
 import static java.lang.Thread.sleep;
@@ -39,6 +38,7 @@ public class App
     static Console console = new Console();
     public static void main(String[] args)
     {
+        //Create a DAO for each database table
         PlayerDaoInterface IPlayerDao = new MySqlPlayerDao();
         RacquetDaoInterface IRacquetDao = new MySqlRacquetDao();
         System.out.println("Tennis Player Database Interface");
@@ -47,7 +47,7 @@ public class App
         {
             boolean isRunning = true;
 
-
+            //Main menu loop
             while(isRunning){
                 switch (menu.mainMenu()) {
                     case 1:
