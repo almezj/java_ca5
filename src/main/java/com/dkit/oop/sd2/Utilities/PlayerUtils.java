@@ -3,17 +3,15 @@ package com.dkit.oop.sd2.Utilities;
 import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
-import com.dkit.oop.sd2.Utilities.Input;
-import com.dkit.oop.sd2.Utilities.RacquetUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.text.DateFormat;
+import java.util.*;
+import java.sql.Date;
 
 public class PlayerUtils {
 
     static Scanner keyboard = new Scanner(System.in);
+    static Menu menu = new Menu();
     static MySqlPlayerDao IPlayerDao = new MySqlPlayerDao();
 
 
@@ -28,57 +26,62 @@ public class PlayerUtils {
         }
     }
 
-    public static void findPlayerByFirstName(List<Player> playerList){
-        //Function to find and display all players with the given first name
-        //TODO: Add functionality to return all players with the same first name
+    public static List<Player> findPlayerByFirstName(List<Player> playerList){
+        System.out.println("Enter the first name of the players you want to find");
+        String fname = keyboard.nextLine().trim();
+        List<Player> filteredPlayers = new ArrayList<>();
+        Player p1 = new Player();
 
-        System.out.println("Enter the first name of the player you want to find");
-        String firstName = keyboard.nextLine().trim();
 
-        if( playerList.isEmpty() )
-            System.out.println("There are no players");
-        else {
-            for (Player player : playerList)
-                if (player.getFirstName().equalsIgnoreCase(firstName))
-                    System.out.println("Player: " + player.toString());
-        }
-    }
+        Collections.sort(playerList, p1.PlayerPointsComparator);
 
-    public static void findPlayerByLastName(List<Player> playerList){
-        //Function to find and display all players with the given last name
-        //TODO: Add functionality to return all players with the same last name
-
-        System.out.println("Enter the last name of the player you want to find");
-        String lastName = keyboard.nextLine().trim();
-
-        if( playerList.isEmpty() )
-            System.out.println("There are no players");
-        else {
-            for (Player player : playerList)
-                if (player.getLastName().equalsIgnoreCase(lastName))
-                    System.out.println("Player: " + player.toString());
-        }
-    }
-
-    public static Player findPlayerByCountry(List<Player> playerList){
-        //Function to collect the country code and return the first player object found or null if the player is not found
-        //TODO: Add functionality to return all players from a country
-
-        System.out.println("Enter the country code of the player you want to find (e.g. USA): ");
-        String country = keyboard.nextLine().trim();
-
-        if( playerList.isEmpty() )
-            System.out.println("There are no players: ");
-        else {
-            for (Player player : playerList){
-                if (player.getCountry().equalsIgnoreCase(country)){
-                    System.out.println("Player: " + player.toString());
-                    return player;
-                }
+        for (Player player : playerList) {
+            if (player.getFirstName().equalsIgnoreCase(fname)) {
+                System.out.println("Player: " + player.toString());
+                filteredPlayers.add(player);
             }
-
         }
-        return null;
+        return filteredPlayers;
+    }
+
+    public static List<Player> findPlayerByLastName(List<Player> playerList){
+        System.out.println("Enter the last name of the players you want to find");
+        String lname = keyboard.nextLine().trim();
+        List<Player> filteredPlayers = new ArrayList<>();
+        Player p1 = new Player();
+
+
+        Collections.sort(playerList, p1.PlayerPointsComparator);
+
+        for (Player player : playerList){
+            if (player.getLastName().equalsIgnoreCase(lname)){
+                System.out.println("Player: " + player.toString());
+                filteredPlayers.add(player);
+            }
+        }
+        return filteredPlayers;
+    }
+
+    public static List<Player> findPlayerByCountry(List<Player> playerList){
+        //Function to collect the country code and return a list of all players from that country using player comparator
+
+        System.out.println("Enter the country code of the players you want to find");
+        String countryCode = keyboard.nextLine().trim();
+        List<Player> filteredPlayers = new ArrayList<>();
+        Player p1 = new Player();
+
+
+        Collections.sort(playerList, p1.PlayerPointsComparator);
+
+        for (Player player : playerList){
+            if (player.getCountry().equalsIgnoreCase(countryCode)){
+                System.out.println("Player: " + player.toString());
+                filteredPlayers.add(player);
+            }
+        }
+
+
+        return filteredPlayers;
     }
 
 
@@ -86,7 +89,7 @@ public class PlayerUtils {
         //Function to collect the player ID of the player to be deleted from the user and return the player ID
 
         System.out.println("Enter the player ID of the player you want to delete: ");
-        int playerID = Input.validateInput(keyboard.nextLine(), 1000000);
+        int playerID = Input.validateInput(Integer.MAX_VALUE);
         RacquetUtils.playerHasRacquetPrompt(playerID);
         System.out.println("Are you sure you want to delete player " + playerID + "? (Y/N)");
         String answer = keyboard.nextLine().trim();
@@ -107,7 +110,8 @@ public class PlayerUtils {
         String l_name = "";
         String country = "";
         int points = 0;
-        String birthDate = "";
+        String birthDateString = "";
+        Date birthDate = null;
 
 
         System.out.println("Enter the first name: ");
@@ -117,27 +121,72 @@ public class PlayerUtils {
         System.out.println("Enter the country code (e.g USA): ");
         country = keyboard.nextLine().trim();
         System.out.println("Enter the points: ");
-        points = Input.validateInput(keyboard.nextLine(), 1000000);
+        points = Input.validateInput(Integer.MAX_VALUE);
         System.out.println("Enter the birth date (YYYY-MM-DD): ");
-        birthDate = keyboard.nextLine().trim();
+        birthDateString = keyboard.nextLine().trim();
+        //TODO: Change player birth date to type Date instead of String
 
         Player player = new Player(f_name, l_name, country, points, birthDate);
         return player;
     }
 
-    public static void findPlayerById(Set<Integer> playerIdCache) throws DaoException {
+    public static Player findPlayerById(Set<Integer> playerIdCache) throws DaoException {
         //Function to collect the player ID of the player to be found from the user and return the player ID
 
         System.out.println("Enter the player ID of the player you want to find: ");
-        int playerID = Input.validateInput(keyboard.nextLine(), Integer.MAX_VALUE);
+        int playerID = Input.validateInput(Integer.MAX_VALUE);
 
         if(playerIdCache.contains(playerID)){
             Player p = IPlayerDao.findPlayerById(playerID);
             System.out.println(p.toString());
+            return p;
         }
         else{
             System.out.println("Player " + playerID + " has not been found");
+            return null;
         }
 
+
+    }
+
+    public static List<Player> filterPlayersByBirthMonth(List<Player> playerList) throws DaoException {
+        System.out.println("Enter the birth month of the players you want to find");
+        String birthMonth = keyboard.nextLine().trim();
+        List<Player> filteredPlayers = new ArrayList<>();
+        Player p1 = new Player();
+
+
+        Collections.sort(playerList, p1.PlayerDateOfBirthComparator);
+
+        for (Player player : playerList){
+            if (player.getMonthOfBirth() == Integer.parseInt(birthMonth)){
+                System.out.println("Player: " + player.toString());
+                filteredPlayers.add(player);
+            }
+        }
+        return filteredPlayers;
+    }
+
+    public static List<Player> filterPlayersByBirthYear(List<Player> playerList) throws DaoException {
+        System.out.println("Enter the birth month of the players you want to find");
+        String birthYear = keyboard.nextLine().trim();
+        List<Player> filteredPlayers = new ArrayList<>();
+        Player p1 = new Player();
+
+
+        Collections.sort(playerList, p1.PlayerDateOfBirthComparator);
+
+        for (Player player : playerList){
+            if (player.getYearOfBirth() == Integer.parseInt(birthYear)){
+                System.out.println("Player: " + player.toString());
+                filteredPlayers.add(player);
+            }
+        }
+        return filteredPlayers;
+    }
+
+    public static Set<Integer> reloadPlayerCache() throws DaoException {
+        //Function to reload the player ID cache
+        return IPlayerDao.getAllPlayerIds();
     }
 }

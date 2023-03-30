@@ -1,16 +1,20 @@
 package com.dkit.oop.sd2.DTOs;
 
+import java.util.Calendar;
+import java.util.Comparator;
+import java.sql.Date;
+
 public class Player implements Comparable<Player>{
     private int id;
     private String firstName;
     private String lastName;
     private String country;
     private int points;
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
 
     //Constructors
-    public Player(String firstName, String lastName, String country, int points, String dateOfBirth) {
+    public Player(String firstName, String lastName, String country, int points, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -18,7 +22,7 @@ public class Player implements Comparable<Player>{
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Player(int id, String firstName, String lastName, String country, int points, String dateOfBirth) {
+    public Player(int id, String firstName, String lastName, String country, int points, Date dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +36,7 @@ public class Player implements Comparable<Player>{
         this.lastName = "";
         this.country = "";
         this.points = 0;
-        this.dateOfBirth = "";
+        this.dateOfBirth = null;
     }
 
     //Getters and setters
@@ -72,12 +76,24 @@ public class Player implements Comparable<Player>{
         this.points = points;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getMonthOfBirth() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateOfBirth);
+        return cal.get(Calendar.MONTH);
+    }
+
+    public int getYearOfBirth() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateOfBirth);
+        return cal.get(Calendar.YEAR);
     }
 
     @Override
@@ -119,5 +135,42 @@ public class Player implements Comparable<Player>{
             return 0;
         }
     }
+
+    //Comparators
+    public static Comparator<Player> PlayerPointsComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player p1, Player p2) {
+            return p1.getPoints() - p2.getPoints();
+        }
+    };
+
+    public static Comparator<Player> PlayerFirstNameComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player p1, Player p2) {
+            return p1.getFirstName().compareTo(p2.getFirstName());
+        }
+    };
+
+    public static Comparator<Player> PlayerLastNameComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player p1, Player p2) {
+            return p1.getLastName().compareTo(p2.getLastName());
+        }
+    };
+
+    public static Comparator<Player> PlayerCountryComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player p1, Player p2) {
+            return p1.getCountry().compareTo(p2.getCountry());
+        }
+    };
+
+    public static Comparator<Player> PlayerDateOfBirthComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player p1, Player p2) {
+            return p1.getDateOfBirth().compareTo(p2.getDateOfBirth());
+        }
+    };
+
 
 }

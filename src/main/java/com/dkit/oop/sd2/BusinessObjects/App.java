@@ -88,6 +88,7 @@ public class App
                                 console.clearConsole();
                                 break;
                         }
+                        playerIdCache = PlayerUtils.reloadPlayerCache();
                         break;
                     case 2:
                         console.clearConsole();

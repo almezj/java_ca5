@@ -7,10 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.sql.Date;
 
 
 public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
@@ -42,7 +40,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
                 String l_name = resultSet.getString("LAST_NAME");
                 String country = resultSet.getString("COUNTRY");
                 int points = resultSet.getInt("POINTS");
-                String birth_date = resultSet.getString("BIRTH_DATE");
+                Date birth_date = resultSet.getDate("BIRTH_DATE");
                 Player p = new Player(player_id, f_name, l_name, country, points, birth_date);
                 playerList.add(p);
             }
@@ -103,7 +101,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
                     String l_name = resultSet.getString("LAST_NAME");
                     String country = resultSet.getString("COUNTRY");
                     int points = resultSet.getInt("POINTS");
-                    String birth_date = resultSet.getString("BIRTH_DATE");
+                    Date birth_date = resultSet.getDate("BIRTH_DATE");
                     p = new Player(player_id, f_name, l_name, country, points, birth_date);
                 }
             } catch (SQLException e)
@@ -208,7 +206,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
             ps.setString(2, p.getLastName());
             ps.setString(3, p.getCountry());
             ps.setInt(4, p.getPoints());
-            ps.setString(5, p.getDateOfBirth());
+            ps.setDate(5, p.getDateOfBirth());
 
             //Using a PreparedStatement to execute SQL...
             int affectedRows = ps.executeUpdate();
@@ -293,6 +291,16 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface
             }
         }
         return playerIds;
+    }
+
+    public void findPlayerUsingFilter(Comparator<Player> filter) throws DaoException {
+        //Function to return a list of players using a filter.
+
+        List<Player> playerList = this.findAllPlayers();
+        playerList.sort(filter);
+        for(Player p : playerList){
+            System.out.println(p);
+        }
     }
 }
 

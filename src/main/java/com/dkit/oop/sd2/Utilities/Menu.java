@@ -19,11 +19,7 @@ public class Menu {
 
         System.out.print("Enter your option: ");
 
-        String option = keyboard.nextLine();
-
-        int validatedOption = userInput.validateInput(option, 3);
-
-        return validatedOption;
+        return userInput.validateInput(3);
     }
 
     public static int playerMainMenu() {
@@ -43,11 +39,7 @@ public class Menu {
 
         System.out.print("Enter your option: ");
 
-        String option = keyboard.nextLine();
-
-        int validatedOption = userInput.validateInput(option, MAX_OPTION);
-
-        return validatedOption;
+        return userInput.validateInput(MAX_OPTION);
     }
 
     public static int racquetMainMenu() {
@@ -65,11 +57,7 @@ public class Menu {
 
         System.out.print("Enter your option: ");
 
-        String option = keyboard.nextLine();
-
-        int validatedOption = userInput.validateInput(option, MAX_OPTION);
-
-        return validatedOption;
+        return userInput.validateInput(MAX_OPTION);
     }
 
     public static int displayAllPlayersAsMenu(List<Player> players) {
@@ -86,10 +74,22 @@ public class Menu {
         }
 
         System.out.println("Please select a player: ");
-        String option = keyboard.nextLine();
 
-        int validatedOption = userInput.validateInput(option, num_of_players);
+        return userInput.validateInput(num_of_players);
+    }
 
-        return validatedOption;
+    public static int filterMenu() {
+        //Main menu for the program
+
+        final int MAX_OPTION = 3;
+        System.out.println("Please select an option:");
+        System.out.println("1. Filter by country");
+        System.out.println("2. Filter by first name");
+        System.out.println("3. Filter by last name");
+        System.out.println("4. Back to main menu");
+
+        System.out.print("Enter your option: ");
+
+        return userInput.validateInput( 4);
     }
 }
