@@ -8,6 +8,8 @@ import com.dkit.oop.sd2.DAOs.RacquetDaoInterface;
 import com.dkit.oop.sd2.DTOs.Player;
 
 import com.dkit.oop.sd2.Exceptions.DaoException;
+
+import java.sql.SQLException;
 import java.util.*;
 
 import com.dkit.oop.sd2.Utilities.PlayerUtils;
@@ -20,7 +22,7 @@ public class App
     private static Scanner keyboard = new Scanner(System.in);
     static Menu menu = new Menu();
     static Console console = new Console();
-    public static void main(String[] args) throws DaoException {
+    public static void main(String[] args) throws SQLException {
 
         //Create a DAO for each database table
         PlayerDaoInterface IPlayerDao = new MySqlPlayerDao();
@@ -38,6 +40,25 @@ public class App
 
             //Main menu loop
             while(isRunning){
+
+                /*
+                * Feature 7
+                * Print out JSON string of all players, uncomment to see JSON string
+                * Returns "No players found" if no players are found
+                * Note: This feature is not in the menu, uncomment to see JSON string
+                */
+                //System.out.println(IPlayerDao.findAllPlayersJson());
+
+                /*
+                * Feature 8
+                * Print out JSON string of a player found by ID
+                * Returns "Player not found" if player is not found
+                * Note: This feature is not in the menu, uncomment to see JSON string
+                */
+                //System.out.println(IPlayerDao.findPlayerByIdJson(1));
+
+
+
                 switch (menu.mainMenu()) {
                     case 1:
                         console.clearConsole();
@@ -112,6 +133,8 @@ public class App
         {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

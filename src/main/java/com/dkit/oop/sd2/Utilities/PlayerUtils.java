@@ -4,6 +4,7 @@ import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DTOs.Player;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.*;
 import java.sql.Date;
@@ -130,7 +131,7 @@ public class PlayerUtils {
         return player;
     }
 
-    public static Player findPlayerById(Set<Integer> playerIdCache) throws DaoException {
+    public static Player findPlayerById(Set<Integer> playerIdCache) throws SQLException {
         //Function to collect the player ID of the player to be found from the user and return the player ID
 
         System.out.println("Enter the player ID of the player you want to find: ");
@@ -185,7 +186,7 @@ public class PlayerUtils {
         return filteredPlayers;
     }
 
-    public static Set<Integer> reloadPlayerCache() throws DaoException {
+    public static Set<Integer> reloadPlayerCache() throws SQLException {
         //Function to reload the player ID cache
         return IPlayerDao.getAllPlayerIds();
     }
