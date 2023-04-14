@@ -51,6 +51,42 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface {
         return resultSet;
     }
 
+    private int executeSqlUpdate(String query, Object[] values) throws DaoException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        int affectedRows = 0;
+
+        try {
+            //Connection object
+            connection = this.getConnection();
+
+            //Prepared statement
+            ps = connection.prepareStatement(query);
+
+            //Set values for any placeholders in the SQL statement
+            for (int i = 0; i < values.length; i++) {
+                ps.setObject(i + 1, values[i]);
+            }
+
+            affectedRows = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("executeSqlUpdate() " + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new DaoException("executeSqlUpdate() " + e.getMessage());
+            }
+        }
+
+        return affectedRows;
+    }
+
     @Override
     public List<Player> findAllPlayers() throws SQLException {
         List<Player> playerList = new ArrayList<>();
@@ -100,14 +136,10 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface {
         boolean result = false;
         String query = "DELETE FROM PLAYERS WHERE PLAYER_ID = ?";
 
-        ResultSet resultSet = executeSqlQuery(query, new Object[]{id});
+        int affectedRows = executeSqlUpdate(query, new Object[]{id});
 
-        if (resultSet.rowDeleted()) {
+        if (affectedRows > 0) {
             result = true;
-        }
-
-        if (resultSet != null) {
-            resultSet.close();
         }
 
         return result;
@@ -126,14 +158,10 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface {
 
 
         String query = "INSERT INTO PLAYERS (FIRST_NAME, LAST_NAME, COUNTRY, POINTS, BIRTH_DATE) VALUES (?, ?, ?, ?, ?)";
-        ResultSet resultSet = executeSqlQuery(query, new Object[]{fname, lname, country, points, birth_date});
+        int affectedRows = executeSqlUpdate(query, new Object[]{fname, lname, country, points, birth_date});
 
-        if (resultSet.rowInserted()) {
+        if (affectedRows > 0) {
             newP = p;
-        }
-
-        if (resultSet != null) {
-            resultSet.close();
         }
 
         return newP;
