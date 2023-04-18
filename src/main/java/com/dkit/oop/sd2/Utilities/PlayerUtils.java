@@ -2,6 +2,7 @@ package com.dkit.oop.sd2.Utilities;
 
 import com.dkit.oop.sd2.DAOs.MySqlPlayerDao;
 import com.dkit.oop.sd2.DTOs.Player;
+import com.dkit.oop.sd2.DTOs.Racquet;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 
 import java.sql.SQLException;
@@ -16,14 +17,16 @@ public class PlayerUtils {
     static MySqlPlayerDao IPlayerDao = new MySqlPlayerDao();
 
 
-    public static void showPlayers(List<Player> playerList){
-        //Function to display all players in the list
-
-        if( playerList.isEmpty() )
-            System.out.println("There are no players");
-        else {
-            for (Player player : playerList)
-                System.out.println("Player: " + player.toString());
+    public static void showPlayers(List<Player> playerList) {
+        if (playerList.isEmpty()) {
+            System.out.println("There are no players to display.");
+        } else {
+            System.out.format("%-10s %-20s %-20s %-10s %-15s %-15s \n", "ID", "Name", "Surname", "Country", "Points", "Date Of Birth");
+            System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+            for (Player player : playerList) {
+                System.out.format("%-10d %-20s %-20s %-10s %-15s %-15s\n", player.getId(), player.getFirstName(),
+                        player.getLastName(), player.getCountry(), player.getPoints() + "pts", player.getDateOfBirth());
+            }
         }
     }
 

@@ -50,4 +50,16 @@ public class Racquet {
 
 
     //TODO: CompareTo, equals, toString methods
+
+    @Override
+    public String toString() {
+        return
+                spec_id + ", " +
+                        brand + ", " +
+                        model + ", " +
+                        weight + ", " +
+                        head_size + ", " +
+                        string_pattern + ", " +
+                        playerId;
+    }
 }

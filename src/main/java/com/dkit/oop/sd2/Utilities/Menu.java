@@ -45,15 +45,15 @@ public class Menu {
     public static int racquetMainMenu() {
         //Main menu for racquet features
 
-        final int MAX_OPTION = 6;
+        final int MAX_OPTION = 7;
         System.out.println("Please select an option:");
         System.out.println("1. Display all racquets");
-        System.out.println("3. Display a racquets by brand");
-        System.out.println("4. Display a racquets by model");
-        System.out.println("5. Display racquets of a player");
-        System.out.println("6. Add new racquet");
-        System.out.println("5. Delete a racquet");
-        System.out.println("6. Back to main menu");
+        System.out.println("2. Display all racquets by brand");
+        System.out.println("3. Display all racquets by model");
+        System.out.println("4. Display racquets of a player");
+        System.out.println("5. Add new racquet");
+        System.out.println("6. Delete a racquet");
+        System.out.println("7. Back to main menu");
 
         System.out.print("Enter your option: ");
 

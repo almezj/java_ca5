@@ -2,7 +2,6 @@ package com.dkit.oop.sd2.DAOs;
 
 
 import com.dkit.oop.sd2.DTOs.Player;
-import com.dkit.oop.sd2.Exceptions.DaoException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,6 +21,6 @@ public interface PlayerDaoInterface
 
     public String findAllPlayersJson() throws SQLException;
 
-    public String findPlayerByIdJson(int id) throws SQLException;
+    public String findPlayerByIdJson(String id) throws SQLException;
 }
 

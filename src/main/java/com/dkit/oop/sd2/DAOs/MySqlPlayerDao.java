@@ -197,9 +197,10 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface {
         return json;
     }
 
-    public String findPlayerByIdJson(int id) throws SQLException {
+    public String findPlayerByIdJson(String jsonID) throws SQLException {
         //Retrieve a single player from the database and return them as a JSON string using GSON
         Gson gson = new Gson();
+        Integer id = gson.fromJson(jsonID, Integer.class);
         String json = gson.toJson(findPlayerById(id));
 
         if(json.equals("null")){
@@ -208,14 +209,13 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface {
         return json;
     }
 
-    public void findPlayerUsingFilter(Comparator<Player> filter) throws SQLException {
+    public List<Player> findSortedPlayersBy(Comparator<Player> filter) throws SQLException {
         //Function to return a list of players using a filter.
 
         List<Player> playerList = this.findAllPlayers();
         playerList.sort(filter);
-        for (Player p : playerList) {
-            System.out.println(p);
-        }
+
+        return playerList;
     }
 
     public void closeConnection() {

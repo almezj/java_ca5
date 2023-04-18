@@ -11,11 +11,13 @@ import java.util.List;
 
 public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
 
+    private Connection connection;
+
     @Override
     public List<Racquet> findAllRacquets() throws DaoException {
         //Function to return a list of all racquets in the database.
 
-        Connection connection = null;
+        connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         List<Racquet> racquetList = new ArrayList<>();
@@ -39,7 +41,7 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
                 int head_size = resultSet.getInt("HEAD_SIZE");
                 int weight = resultSet.getInt("WEIGHT");
                 String string_pattern = resultSet.getString("STRING_PATTERN");
-                Racquet r = new Racquet(spec_id, player_id, brand, model, head_size, weight, string_pattern);
+                Racquet r = new Racquet(spec_id, player_id, brand, model, weight, head_size, string_pattern);
                 racquetList.add(r);
             }
         } catch (SQLException e)
@@ -222,6 +224,21 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
             }
 
             return deleted;
+        }
+    }
+
+    public void closeConnection() {
+        //Function to close the connection to the database
+
+        try
+        {
+            if (connection != null)
+            {
+                connection.close();
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
         }
     }
 }

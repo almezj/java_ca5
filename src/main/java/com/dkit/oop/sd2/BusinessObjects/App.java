@@ -6,6 +6,7 @@ import com.dkit.oop.sd2.DAOs.MySqlRacquetDao;
 import com.dkit.oop.sd2.DAOs.PlayerDaoInterface;
 import com.dkit.oop.sd2.DAOs.RacquetDaoInterface;
 import com.dkit.oop.sd2.DTOs.Player;
+import com.google.gson.Gson;
 
 import com.dkit.oop.sd2.Exceptions.DaoException;
 
@@ -23,6 +24,9 @@ public class App
     static Menu menu = new Menu();
     static Console console = new Console();
     public static void main(String[] args) throws SQLException {
+
+        //Create a GSON object
+        Gson gson = new Gson();
 
         //Create a DAO for each database table
         PlayerDaoInterface IPlayerDao = new MySqlPlayerDao();
@@ -55,7 +59,8 @@ public class App
                 * Returns "Player not found" if player is not found
                 * Note: This feature is not in the menu, uncomment to see JSON string
                 */
-                //System.out.println(IPlayerDao.findPlayerByIdJson(1));
+                //String jsonID = gson.toJson(1);
+                //System.out.println(IPlayerDao.findPlayerByIdJson(jsonID));
 
 
 
@@ -113,7 +118,45 @@ public class App
                         break;
                     case 2:
                         console.clearConsole();
-                        menu.racquetMainMenu();
+                        switch (menu.racquetMainMenu()){
+                            case 1:
+                                console.clearConsole();
+                                RacquetUtils.showRacquets(IRacquetDao.findAllRacquets());
+                                console.pressEnterToContinue();
+                                break;
+                            case 2:
+                                console.clearConsole();
+                                //TODO: Display all racquets by brand
+                                console.pressEnterToContinue();
+                                break;
+                            case 3:
+                                console.clearConsole();
+                                //TODO: Display all racquets by model
+                                console.pressEnterToContinue();
+                                break;
+                            case 4:
+                                console.clearConsole();
+                                //TODO: Display all racquets of a player
+                                console.pressEnterToContinue();
+                                break;
+                            case 5:
+                                console.clearConsole();
+                                //TODO: Add new racquet
+                                console.pressEnterToContinue();
+                                break;
+                            case 6:
+                                console.clearConsole();
+                                //TODO: Delete a racquet
+                                break;
+                            case 7:
+                                console.clearConsole();
+                                //TODO: Back to main menu
+                                console.pressEnterToContinue();
+                                break;
+                            default:
+                                console.clearConsole();
+                                break;
+                        }
                         console.pressEnterToContinue();
                         break;
                     case 3:
