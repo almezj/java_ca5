@@ -126,29 +126,19 @@ public class App
                                 break;
                             case 2:
                                 console.clearConsole();
-                                //TODO: Display all racquets by brand
+                                RacquetUtils.findRacquetsBy(IRacquetDao.findAllRacquets());
                                 console.pressEnterToContinue();
                                 break;
                             case 3:
                                 console.clearConsole();
-                                //TODO: Display all racquets by model
+                                //TODO: Add new racquet
                                 console.pressEnterToContinue();
                                 break;
                             case 4:
                                 console.clearConsole();
-                                //TODO: Display all racquets of a player
-                                console.pressEnterToContinue();
-                                break;
-                            case 5:
-                                console.clearConsole();
-                                //TODO: Add new racquet
-                                console.pressEnterToContinue();
-                                break;
-                            case 6:
-                                console.clearConsole();
                                 //TODO: Delete a racquet
                                 break;
-                            case 7:
+                            case 5:
                                 console.clearConsole();
                                 //TODO: Back to main menu
                                 console.pressEnterToContinue();

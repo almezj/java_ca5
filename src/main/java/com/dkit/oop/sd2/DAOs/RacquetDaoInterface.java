@@ -14,4 +14,6 @@ public interface RacquetDaoInterface {
     public boolean deleteRacquetById(int specId) throws DaoException;
 
     public boolean deletePlayerRacquets(int playerId) throws DaoException;
+
+    List<Racquet> findRacquetsByCriteria(String criteria, String criteriaValue) throws DaoException;
 }

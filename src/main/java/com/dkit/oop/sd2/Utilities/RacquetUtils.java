@@ -32,4 +32,64 @@ public class RacquetUtils {
             }
         }
     }
+
+    public static void findRacquetsBy(List<Racquet> racquetList) throws DaoException {
+        System.out.println("Choose a search option:");
+        System.out.println("1. Search by model");
+        System.out.println("2. Search by brand");
+        System.out.println("3. Search by head size");
+        System.out.println("4. Search by weight");
+        System.out.println("5. Search by string pattern");
+        System.out.println("6. Search by player ID");
+        System.out.println("7. Return to main menu");
+        System.out.print("Enter your option: ");
+
+        int option = Input.validateInput(7);
+        switch (option) {
+            case 1:
+                System.out.print("Enter model: ");
+                String model = Input.validateString();
+                racquetList = IRacquetDao.findRacquetsByCriteria("model",model);
+                showRacquets(racquetList);
+                break;
+            case 2:
+                System.out.print("Enter brand: ");
+                String brand = Input.validateString();
+                racquetList = IRacquetDao.findRacquetsByCriteria("brand", brand);
+                showRacquets(racquetList);
+                break;
+            case 3:
+                System.out.print("Enter head size: ");
+                int headSize = Input.validateInput(300);
+                racquetList = IRacquetDao.findRacquetsByCriteria("headsize", String.valueOf(headSize));
+                showRacquets(racquetList);
+                break;
+            case 4:
+                System.out.print("Enter weight: ");
+                int weight = Input.validateInput(1000);
+                racquetList = IRacquetDao.findRacquetsByCriteria("weight", String.valueOf(weight));
+                showRacquets(racquetList);
+                break;
+            case 5:
+                System.out.print("Enter string pattern first value []x?: ");
+                int stringPatternFirst = Input.validateInput(20);
+                System.out.print("Enter string pattern second value" + stringPatternFirst +"x?: ");
+                int stringPatternSecond = Input.validateInput(20);
+                String stringPattern = stringPatternFirst + "x" + stringPatternSecond;
+                racquetList = IRacquetDao.findRacquetsByCriteria("stringpattern", stringPattern);
+                showRacquets(racquetList);
+                break;
+            case 6:
+                System.out.print("Enter player ID: ");
+                int playerID = Input.validateInput(Integer.MAX_VALUE);
+                racquetList = IRacquetDao.findRacquetsByCriteria("playerid", String.valueOf(playerID));
+                showRacquets(racquetList);
+                break;
+            case 7:
+                break;
+        }
+
+
+
+    }
 }

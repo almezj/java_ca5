@@ -23,4 +23,14 @@ public class Input {
         }
         return inputInt;
     }
+
+    public static String validateString() {
+        //Function to validate the string user input
+        String input = keyboard.nextLine().trim().toLowerCase();
+        if (input.isEmpty()) {
+            System.out.println("Invalid input. Please enter a string");
+            return "";
+        }
+        return input;
+    }
 }

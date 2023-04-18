@@ -227,6 +227,62 @@ public class MySqlRacquetDao extends MySqlDao implements RacquetDaoInterface{
         }
     }
 
+    public List<Racquet> findRacquetsByCriteria(String criteria, String criteriaValue) throws DaoException {
+        List<Racquet> racquetList = findAllRacquets();
+        ArrayList<Racquet> filteredRacquetList = new ArrayList<>(racquetList);
+
+        switch (criteria){
+            case "brand":
+                for (Racquet r : racquetList){
+                    if (!r.getBrand().toLowerCase().contains(criteriaValue)){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            case "model":
+                for (Racquet r : racquetList){
+                    if (!r.getModel().toLowerCase().contains(criteriaValue)){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            case "weight":
+                for (Racquet r : racquetList){
+                    //If the weight is not within 10 grams of the criteria value, remove it from the list
+                    if (r.getWeight() != Integer.parseInt(criteriaValue) - 10 || r.getWeight() != Integer.parseInt(criteriaValue) + 10){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            case "headsize":
+                for (Racquet r : racquetList){
+                    if (r.getHead_size() != Integer.parseInt(criteriaValue)){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            case "stringpattern":
+                for (Racquet r : racquetList){
+                    if (!r.getString_pattern().toLowerCase().equals(criteriaValue)){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            case "playerid":
+                for (Racquet r : racquetList){
+                    if (r.getPlayerId() != Integer.parseInt(criteriaValue)){
+                        filteredRacquetList.remove(r);
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid criteria");
+                break;
+        }
+
+        return filteredRacquetList;
+    }
+
     public void closeConnection() {
         //Function to close the connection to the database
 
