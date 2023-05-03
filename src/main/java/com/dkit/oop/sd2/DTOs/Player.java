@@ -1,5 +1,7 @@
 package com.dkit.oop.sd2.DTOs;
 
+import com.google.gson.Gson;
+
 import java.util.Calendar;
 import java.util.Comparator;
 import java.sql.Date;
@@ -14,12 +16,12 @@ public class Player implements Comparable<Player>{
 
 
     //Constructors
-    public Player(String firstName, String lastName, String country, int points, Date dateOfBirth) {
+    public Player(String firstName, String lastName, String country, int points, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
         this.points = points;
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = Date.valueOf(dateOfBirth);
     }
 
     public Player(int id, String firstName, String lastName, String country, int points, Date dateOfBirth) {
@@ -98,13 +100,8 @@ public class Player implements Comparable<Player>{
 
     @Override
     public String toString() {
-        return
-                id + ", " +
-                firstName + ", " +
-                lastName + ", " +
-                country + ", " +
-                "Points: " + points + ", " +
-                dateOfBirth;
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     //Override equals and compareTo methods

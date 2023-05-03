@@ -82,7 +82,7 @@ public class MySqlPlayerDaoTest {
     // Test 1: Player added successfully
     @Test
     public void addPlayer1() throws SQLException {
-        Player p = new Player("John", "Doe", "Ireland", 100, new java.sql.Date(System.currentTimeMillis()));
+        Player p = new Player("John", "Doe", "Ireland", 100, "2023-01-01");
         Player newP = dao.addPlayer(p);
         assertNotNull(newP);
         assertEquals(p.getFirstName(), newP.getFirstName());

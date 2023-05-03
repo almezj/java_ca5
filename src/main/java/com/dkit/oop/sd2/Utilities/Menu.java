@@ -49,8 +49,6 @@ public class Menu {
         System.out.println("Please select an option:");
         System.out.println("1. Display all racquets");
         System.out.println("2. Display all racquets by criteria");
-        System.out.println("3. Add new racquet");
-        System.out.println("4. Delete a racquet");
         System.out.println("5. Back to main menu");
 
         System.out.print("Enter your option: ");

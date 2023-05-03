@@ -6,9 +6,8 @@ import com.dkit.oop.sd2.DTOs.Racquet;
 import com.dkit.oop.sd2.Exceptions.DaoException;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.util.*;
 import java.sql.Date;
+import java.util.*;
 
 public class PlayerUtils {
 
@@ -30,9 +29,8 @@ public class PlayerUtils {
         }
     }
 
-    public static List<Player> findPlayerByFirstName(List<Player> playerList){
-        System.out.println("Enter the first name of the players you want to find");
-        String fname = keyboard.nextLine().trim();
+    public static List<Player> findPlayerByFirstName(List<Player> playerList, String fname){
+
         List<Player> filteredPlayers = new ArrayList<>();
         Player p1 = new Player();
 
@@ -48,9 +46,8 @@ public class PlayerUtils {
         return filteredPlayers;
     }
 
-    public static List<Player> findPlayerByLastName(List<Player> playerList){
-        System.out.println("Enter the last name of the players you want to find");
-        String lname = keyboard.nextLine().trim();
+    public static List<Player> findPlayerByLastName(List<Player> playerList, String lname){
+
         List<Player> filteredPlayers = new ArrayList<>();
         Player p1 = new Player();
 
@@ -66,11 +63,8 @@ public class PlayerUtils {
         return filteredPlayers;
     }
 
-    public static List<Player> findPlayerByCountry(List<Player> playerList){
-        //Function to collect the country code and return a list of all players from that country using player comparator
+    public static List<Player> findPlayerByCountry(List<Player> playerList, String countryCode){
 
-        System.out.println("Enter the country code of the players you want to find");
-        String countryCode = keyboard.nextLine().trim();
         List<Player> filteredPlayers = new ArrayList<>();
         Player p1 = new Player();
 
@@ -90,7 +84,6 @@ public class PlayerUtils {
 
 
     public static int deletePlayerPrompt() throws DaoException {
-        //Function to collect the player ID of the player to be deleted from the user and return the player ID
 
         System.out.println("Enter the player ID of the player you want to delete: ");
         int playerID = Input.validateInput(Integer.MAX_VALUE);
@@ -107,38 +100,8 @@ public class PlayerUtils {
         return playerID;
     }
 
-    public static Player addNewPlayerPrompt() throws DaoException{
-        //Function to collect the details of a new player from the user and return a Player object
 
-        String f_name = "";
-        String l_name = "";
-        String country = "";
-        int points = 0;
-        String birthDateString = "";
-        Date birthDate = null;
-
-
-        System.out.println("Enter the first name: ");
-        f_name = keyboard.nextLine().trim();
-        System.out.println("Enter the last name: ");
-        l_name = keyboard.nextLine().trim();
-        System.out.println("Enter the country code (e.g USA): ");
-        country = keyboard.nextLine().trim();
-        System.out.println("Enter the points: ");
-        points = Input.validateInput(Integer.MAX_VALUE);
-        System.out.println("Enter the birth date (YYYY-MM-DD): ");
-        birthDateString = keyboard.nextLine().trim();
-        //TODO: Change player birth date to type Date instead of String
-
-        Player player = new Player(f_name, l_name, country, points, birthDate);
-        return player;
-    }
-
-    public static Player findPlayerById(Set<Integer> playerIdCache) throws SQLException {
-        //Function to collect the player ID of the player to be found from the user and return the player ID
-
-        System.out.println("Enter the player ID of the player you want to find: ");
-        int playerID = Input.validateInput(Integer.MAX_VALUE);
+    public static Player findPlayerById(Set<Integer> playerIdCache, int playerID) throws SQLException {
 
         if(playerIdCache.contains(playerID)){
             Player p = IPlayerDao.findPlayerById(playerID);
@@ -149,8 +112,6 @@ public class PlayerUtils {
             System.out.println("Player " + playerID + " has not been found");
             return null;
         }
-
-
     }
 
     public static List<Player> filterPlayersByBirthMonth(List<Player> playerList) throws DaoException {
